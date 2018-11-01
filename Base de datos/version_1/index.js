@@ -16,7 +16,7 @@ app.get('/appi/sensores/:sensoresId',(req,res) => {
 //sube datos de un sensor
 app.post('/appi/sensores',(req,res) => {
   console.log(req.body)
-  res.send(200,{message:'los datos se han recibido'})
+  res.status(200).send({message:'los datos se han recibido'})
 })
 //actualiza los datos del sensor
 app.put('/appi/sensores/:sensoresId',(req,res) => {
