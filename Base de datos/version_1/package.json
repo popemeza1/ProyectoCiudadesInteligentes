@@ -1,0 +1,19 @@
+{
+  "name": "prototipo",
+  "version": "1.0.0",
+  "description": "Prototipo de vase de datos",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "alejandro hernandez castañeda",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.5"
+  }
+}
