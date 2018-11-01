@@ -71,7 +71,17 @@ app.post('/appi/sensores',(req,res) => {
 //////////FUNCION PUT//////////////
 //actualiza los datos del sensor
 app.put('/appi/sensores/:sensoresId',(req,res) => {
-
+  //busca el sensor
+  let sensoresId = req.params.sensoresId
+  //define que parametro cambiar
+  let update = req.body
+  //funcion buscar y actualizar mongoose
+  Sensores.findByIdAndUpdate(sensoresId , update, (err, sensoresUpdate)=> {
+  //mensaje de error
+  if (err) res.status(500).send({message: `error al actualizar el sensor ${err}`})
+  //actualiza los datos
+  res.status(200).send({ sensores : sensoresUpdate })
+  })
 })
 ///
 ///
@@ -80,6 +90,18 @@ app.put('/appi/sensores/:sensoresId',(req,res) => {
 //////////FUNCION DELETE//////////////
 //borra los datos de un senso
 app.delete('/appi/sensores/:sensoresId',(req,res) => {
+  //busca el sensor
+  let sensoresId = req.params.sensoresId
+  Sensores.findById(sensoresId, (err,sensores) => {
+    //error en caso de que algo salio mal
+    if (err) res.status(500).send({message: `error al borrar el sensor ${err}`})
+    sensores.remove(err => {
+      //error en caso de que algo salio mal
+      if (err) res.status(500).send({message: `error al borrar el sensor ${err}`})
+      //mensaje de sensores borrados
+      res.status(200).send({message: 'el sensor a sido borrado'})
+    })
+  })
 
 })
 ///
