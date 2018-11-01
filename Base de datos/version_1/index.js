@@ -7,14 +7,41 @@ const app = express() //declara que se usara express
 const port = process.env.PORT || 3000 //declara el puerto local que se va a usar
 app.use(bodyParser.urlencoded({ extended : false }))// declara que se usara body parcer
 app.use(bodyParser.json())// declara el tipo de parcer en este caso json
+///
+///
+///
+///
+//////////FUNCION GET//////////////
 //muestra todos los sensores
 app.get('/appi/sensores',(req,res) => {
-  res.send(200,{sensores:[]})
+  Sensores.find({},(err,sensores) => {
+    //error si ocurre algo imprevisto
+    if(err) return res.status(500).send({message:`error al realizar la peticion: ${err}`})
+    //error si el sensor no existe
+    if(!sensores) return res.status(404).send({message:`no existen sensores`})
+    //manda los datos del sensor
+    res.send(200,{sensores})
+  })
 })
 //muestra un sensor en especifico
 app.get('/appi/sensores/:sensoresId',(req,res) => {
-
+  //declara que se nesesita el valor id de mongoose
+  let sensoresId = req.params.sensoresId
+  //busca haber si esta
+  Sensores.findById(sensoresId,(err,sensores) => {
+    //error si ocurre algo imprevisto
+    if(err) return res.status(500).send({message:`error al realizar la peticion: ${err}`})
+    //error si el sensor no existe
+    if(!sensores) return res.status(404).send({message:`el sensor no existe`})
+    //devuelve el sensor si este existe
+    res.status(200).send({sensores})
+  })
 })
+///
+///
+///
+///
+//////////FUNCION POST//////////////
 //sube datos de un sensor
 app.post('/appi/sensores',(req,res) => {
   console.log('POST /appi/sensores')
@@ -38,14 +65,28 @@ app.post('/appi/sensores',(req,res) => {
     res.status(200).send({sensores: sensoresGuardados})
   })
 })
+///
+///
+///
+//////////FUNCION PUT//////////////
 //actualiza los datos del sensor
 app.put('/appi/sensores/:sensoresId',(req,res) => {
 
 })
+///
+///
+///
+///
+//////////FUNCION DELETE//////////////
 //borra los datos de un senso
 app.delete('/appi/sensores/:sensoresId',(req,res) => {
 
 })
+///
+///
+///
+///
+//////////FUNCION INICIO DE  SERVIDOR//////////////
 mongoose.connect('mongodb://localhost:27017/datosCiudad', (err,res) => {
   if(err){
     //mensaje de error en caso de que no se conecte bien
